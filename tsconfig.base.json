@@ -1,0 +1,10 @@
+{
+	"extends": "@sapphire/ts-config/",
+	"compilerOptions": {
+		"lib": ["ESNext", "DOM"],
+		"emitDecoratorMetadata": false,
+		"target": "ESNext",
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext"
+	}
+}

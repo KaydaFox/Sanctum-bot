@@ -1,0 +1,15 @@
+{
+	"extends": "../tsconfig.base.json",
+	"compilerOptions": {
+		"rootDir": ".",
+		"baseUrl": ".",
+		"outDir": "../dist",
+		"tsBuildInfoFile": "../dist/.tsbuildinfo",
+		"paths": {
+			"#lib/*": ["lib/*"],
+			"#root/*": ["*"]
+		},
+		"experimentalDecorators": true
+	},
+	"include": ["."]
+}

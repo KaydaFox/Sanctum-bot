@@ -1,0 +1,26 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./data.db"
+}
+
+model Warning {
+  id          Int      @id @default(autoincrement())
+  moderatorId BigInt
+  userId      BigInt
+  reason      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Ban {
+  id        Int      @id @default(autoincrement())
+  userId    BigInt
+  expiresAt DateTime
+}
