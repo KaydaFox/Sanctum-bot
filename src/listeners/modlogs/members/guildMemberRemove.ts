@@ -63,7 +63,7 @@ export class GuildMemberRemoveListener extends Listener {
 						},
 						{
 							name: 'Member Left',
-							value: `<t:${Math.floor(member.joinedTimestamp! / 1000)}:R>`
+							value: `<t:${Math.floor(Date.now() / 1000)}:R>`
 						},
 						{
 							name: 'Member Count',
