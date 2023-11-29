@@ -57,6 +57,7 @@ export class ViewWarningsCommand extends Command {
 		}
 	}
 
+	// eslint-disable-next-line @typescript-eslint/require-await
 	private async fetchWarnings(userId: bigint) {
 		return this.container.prisma.warning.findMany({
 			where: {
