@@ -1,3 +1,4 @@
+import { Invite } from '@prisma/client';
 import { ApplyOptions } from '@sapphire/decorators';
 import { Events, Listener, type ListenerOptions } from '@sapphire/framework';
 import { sleep } from '@sapphire/utilities';
@@ -9,8 +10,6 @@ import { AuditLogEvent, EmbedBuilder, GuildAuditLogsEntry, type GuildMember } fr
 export class GuildMemberRemoveListener extends Listener {
 	public async run(member: GuildMember) {
 		if (member.user.bot) return;
-
-		console.log('waiting 5 seconds');
 
 		await sleep(5000);
 		// this 5 second sleep is to allow the audit logs to update.
@@ -32,20 +31,25 @@ export class GuildMemberRemoveListener extends Listener {
 			if (latestAuditLogKickEntry.entries.first()?.target?.id === member.id) leaveType = 'kick';
 			if (latestAuditLogBanEntry.entries.first()?.target?.id === member.id) leaveType = 'ban';
 
+			const inviteInfo = await this.fetchInviteFromDB(member.id).catch((err) => {
+				console.log(err);
+				return null;
+			});
+
 			switch (leaveType) {
 				case 'standard':
-					return this.handleLeave(member);
+					return this.handleLeave(member, inviteInfo);
 				case 'kick':
-					return this.handleKick(member, latestAuditLogKickEntry.entries.first()!);
+					return this.handleKick(member, latestAuditLogKickEntry.entries.first()!, inviteInfo);
 				case 'ban':
-					return this.handleBan(member, latestAuditLogBanEntry.entries.first()!);
+					return this.handleBan(member, latestAuditLogBanEntry.entries.first()!, inviteInfo);
 			}
 		} catch (error) {
 			return this.container.logger.error(error);
 		}
 	}
 
-	private async handleLeave(member: GuildMember) {
+	private async handleLeave(member: GuildMember, invite: Invite | null) {
 		const threadChannel = await this.container.client.utilities.modlogUtilities.fetchThreadChannel('MEMBERS');
 
 		return threadChannel.send({
@@ -68,16 +72,20 @@ export class GuildMemberRemoveListener extends Listener {
 						{
 							name: 'Member Count',
 							value: member.guild.memberCount.toString()
+						},
+						{
+							name: 'Invite info',
+							value: `Invite code: ${invite?.inviteCode || 'Unkown'} from ${
+								invite && invite?.inviterUserId === 'unknown' ? 'Unknown' : `<@${invite?.inviterUserId}>`
+							}`
 						}
 					)
 			]
 		});
 	}
 
-	private async handleKick(member: GuildMember, data: GuildAuditLogsEntry) {
+	private async handleKick(member: GuildMember, data: GuildAuditLogsEntry, invite: Invite | null) {
 		const threadChannel = await this.container.client.utilities.modlogUtilities.fetchThreadChannel('MEMBERS');
-
-		console.log(data);
 
 		const memberKickEmbed = new EmbedBuilder()
 			.setAuthor({
@@ -104,16 +112,20 @@ export class GuildMemberRemoveListener extends Listener {
 				{
 					name: 'Reason',
 					value: `${data.reason ?? 'No reason provided'}`
+				},
+				{
+					name: 'Invite info',
+					value: `Invite code: ${invite?.inviteCode || 'Unkown'} from ${
+						invite && invite?.inviterUserId === 'unknown' ? 'Unknown' : `<@${invite?.inviterUserId}>`
+					}`
 				}
 			);
 
 		return threadChannel.send({ embeds: [memberKickEmbed] });
 	}
 
-	private async handleBan(member: GuildMember, data: GuildAuditLogsEntry) {
+	private async handleBan(member: GuildMember, data: GuildAuditLogsEntry, invite: Invite | null) {
 		const threadChannel = await this.container.client.utilities.modlogUtilities.fetchThreadChannel('MEMBERS');
-
-		console.log(data);
 
 		const memberBanEmbed = new EmbedBuilder()
 			.setAuthor({
@@ -140,9 +152,24 @@ export class GuildMemberRemoveListener extends Listener {
 				{
 					name: 'Reason',
 					value: `${data.reason ?? 'No reason provided'}`
+				},
+				{
+					name: 'Invite info',
+					value: `Invite code: ${invite?.inviteCode || 'Unkown'} from ${
+						invite && invite?.inviterUserId === 'unknown' ? 'Unknown' : `<@${invite?.inviterUserId}>`
+					}`
 				}
 			);
 
 		return threadChannel.send({ embeds: [memberBanEmbed] });
+	}
+
+	private fetchInviteFromDB(userId: string) {
+		return this.container.prisma.invite.findFirst({
+			where: {
+				invitedUserId: userId
+			}
+		});
+		// May delete the invites from the DB in the future, but for now we can leave it be
 	}
 }

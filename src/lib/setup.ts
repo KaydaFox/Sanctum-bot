@@ -35,5 +35,6 @@ declare module '@skyra/env-utilities' {
 declare module '@sapphire/pieces' {
 	interface Container {
 		prisma: PrismaClient;
+		tracker: any;
 	}
 }

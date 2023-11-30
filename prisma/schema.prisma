@@ -24,3 +24,10 @@ model Ban {
   userId    BigInt
   expiresAt DateTime
 }
+
+model Invite {
+  id            Int    @id @default(autoincrement())
+  invitedUserId String @unique
+  inviterUserId String
+  inviteCode    String
+}

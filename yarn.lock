@@ -12,6 +12,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@androz2091/discord-invites-tracker@npm:^1.2.3":
+  version: 1.2.3
+  resolution: "@androz2091/discord-invites-tracker@npm:1.2.3"
+  checksum: c72882569dbdf3ca85ce73e0df6c4bd0459f9dca95be0c23d9fe3d1f3230c372be161764f2beb3b7a8eb975c24ea80fbd50370971a08e0b59eeb9fb40fbdddca
+  languageName: node
+  linkType: hard
+
 "@babel/code-frame@npm:^7.0.0":
   version: 7.22.5
   resolution: "@babel/code-frame@npm:7.22.5"
@@ -3937,6 +3944,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "sanctum_bot@workspace:."
   dependencies:
+    "@androz2091/discord-invites-tracker": "npm:^1.2.3"
     "@commitlint/cli": "npm:^18.4.3"
     "@commitlint/config-conventional": "npm:^18.4.3"
     "@prisma/client": "npm:^5.6.0"
