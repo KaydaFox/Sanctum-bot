@@ -76,7 +76,7 @@ export class GuildMemberRemoveListener extends Listener {
 						{
 							name: 'Invite info',
 							value: `Invite code: ${invite?.inviteCode || 'Unkown'} from ${
-								invite && invite?.inviterUserId === 'unknown' ? 'Unknown' : `<@${invite?.inviterUserId}>`
+								(invite && invite?.inviterUserId === 'unknown') || !invite?.invitedUserId ? 'Unknown' : `<@${invite?.inviterUserId}>`
 							}`
 						}
 					)
@@ -116,7 +116,7 @@ export class GuildMemberRemoveListener extends Listener {
 				{
 					name: 'Invite info',
 					value: `Invite code: ${invite?.inviteCode || 'Unkown'} from ${
-						invite && invite?.inviterUserId === 'unknown' ? 'Unknown' : `<@${invite?.inviterUserId}>`
+						(invite && invite?.inviterUserId === 'unknown') || !invite?.invitedUserId ? 'Unknown' : `<@${invite?.inviterUserId}>`
 					}`
 				}
 			);
@@ -156,7 +156,7 @@ export class GuildMemberRemoveListener extends Listener {
 				{
 					name: 'Invite info',
 					value: `Invite code: ${invite?.inviteCode || 'Unkown'} from ${
-						invite && invite?.inviterUserId === 'unknown' ? 'Unknown' : `<@${invite?.inviterUserId}>`
+						(invite && invite?.inviterUserId === 'unknown') || !invite?.invitedUserId ? 'Unknown' : `<@${invite?.inviterUserId}>`
 					}`
 				}
 			);
