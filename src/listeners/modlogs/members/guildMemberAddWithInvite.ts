@@ -20,12 +20,12 @@ export class GuildMemberAddListener extends Listener {
 					},
 					update: {
 						inviteCode: invite?.code || 'Unknown',
-						inviterUserId: invite?.inviter?.id || 'Unknown'
+						inviterUserId: invite?.inviter?.id || 'unknown'
 					},
 					create: {
 						inviteCode: invite?.code || 'Unknown',
 						invitedUserId: member.id,
-						inviterUserId: invite?.inviter?.id || 'Unknown'
+						inviterUserId: invite?.inviter?.id || 'unknown'
 					}
 				});
 			} catch (error) {
