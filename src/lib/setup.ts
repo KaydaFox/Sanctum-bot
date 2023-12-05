@@ -29,6 +29,8 @@ declare module '@skyra/env-utilities' {
 		MODLOG_ROLES_THREAD_ID: string;
 		MODLOG_CHANNELS_THREAD_ID: string;
 		IGNORED_USER_IDS: ArrayString;
+		TICKET_CATEGORY_ID: string;
+		TICKET_TRANSCRIPT_CHANNEL_ID: string;
 	}
 }
 
