@@ -40,7 +40,7 @@ export default function initializeTicketAttachmentServer() {
 			}
 		});
 
-		server.listen(80, () => {
+		server.listen(3000, () => {
 			container.logger.info('Ticket attachment server started on port 3000');
 		});
 	} catch (error) {
