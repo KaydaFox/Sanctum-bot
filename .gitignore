@@ -31,3 +31,6 @@ package-lock.json
 
 # Ignore prismas database
 prisma/*.db
+
+# Ignore the ticket attachments store
+ticketAttachmentStorage/*
