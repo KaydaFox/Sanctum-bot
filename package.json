@@ -21,7 +21,7 @@
 		"@sapphire/duration": "^1.1.1",
 		"@sapphire/eslint-plugin-result": "^2.0.2",
 		"@sapphire/framework": "^5.0.2",
-		"@sapphire/plugin-hmr": "^2.0.3",
+		"@sapphire/plugin-hmr": "^3.0.0",
 		"@sapphire/plugin-logger": "^3.0.7",
 		"@sapphire/plugin-subcommands": "^5.1.0",
 		"@sapphire/plugin-utilities-store": "^1.0.3",

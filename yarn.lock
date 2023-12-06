@@ -637,12 +637,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/plugin-hmr@npm:^2.0.3":
-  version: 2.0.3
-  resolution: "@sapphire/plugin-hmr@npm:2.0.3"
+"@sapphire/plugin-hmr@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@sapphire/plugin-hmr@npm:3.0.0"
   dependencies:
     chokidar: "npm:^3.5.3"
-  checksum: f45e5ca95590b415b08f08c1052aa08284819040987ce81c4916cfad9084ca6d855fe70a078a0ac90eba878eba8c79f360609c3d4bde0b8523e6eb531e6fcae5
+  checksum: ce2ad6b6342b22000fe249380a60f9e67df63faf728287848cfec17adbbee054af075cc8b49d24fa52ce326680da56c2d4467b648bb74acf1b015fb572821785
   languageName: node
   linkType: hard
 
@@ -3986,7 +3986,7 @@ __metadata:
     "@sapphire/eslint-config": "npm:^5.0.3"
     "@sapphire/eslint-plugin-result": "npm:^2.0.2"
     "@sapphire/framework": "npm:^5.0.2"
-    "@sapphire/plugin-hmr": "npm:^2.0.3"
+    "@sapphire/plugin-hmr": "npm:^3.0.0"
     "@sapphire/plugin-logger": "npm:^3.0.7"
     "@sapphire/plugin-subcommands": "npm:^5.1.0"
     "@sapphire/plugin-utilities-store": "npm:^1.0.3"
