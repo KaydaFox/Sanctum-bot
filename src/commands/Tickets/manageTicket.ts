@@ -130,7 +130,7 @@ export default class ManageTicketSubcommand extends Subcommand {
 			const ticketId = ticketCount + 1;
 
 			const ticketChannel = await interaction.guild.channels.create({
-				name: `${interaction.user.username}-${ticketId}`,
+				name: `ticket-${ticketId}`,
 				parent: envParseString('TICKET_CATEGORY_ID'),
 				permissionOverwrites: [
 					{
@@ -145,7 +145,7 @@ export default class ManageTicketSubcommand extends Subcommand {
 			});
 
 			await Promise.all([
-				await this.container.prisma.ticket.create({
+				this.container.prisma.ticket.create({
 					data: {
 						opener: BigInt(interaction.user.id),
 						channelId: BigInt(ticketChannel.id),
@@ -153,31 +153,26 @@ export default class ManageTicketSubcommand extends Subcommand {
 					}
 				}),
 
-				await ticketChannel.send({
-					embeds: [
-						new EmbedBuilder()
-							.setAuthor({
-								name: member.user.username,
-								iconURL: member.user.displayAvatarURL()
-							})
-							.setTitle(`New ticket opened by ${interaction.user.username}`)
-							.setDescription(reason)
-					],
+				ticketChannel.send({
+					content: `## New ticket\n**Opened by:** ${interaction.user}\n**For:** ${member.user}\n**Reason:** ${reason}`,
 					components: [
 						new ActionRowBuilder<ButtonBuilder>().addComponents(
 							new ButtonBuilder().setCustomId(`ticket.close.${ticketId}`).setLabel('Close').setStyle(ButtonStyle.Danger)
 						)
 					]
-				})
-			]);
+				}),
 
-			await this.container.utilities.modlogUtilities.sendDmToUser(
-				member.id,
-				new EmbedBuilder().setTitle('Ticket opened').setDescription(`A ticket was opened for you by <@${interaction.user.id}>`).addFields({
-					name: 'Reason',
-					value: reason
-				})
-			);
+				this.container.utilities.modlogUtilities.sendDmToUser(
+					member.id,
+					new EmbedBuilder()
+						.setTitle('Ticket opened')
+						.setDescription(`A ticket was opened for you by <@${interaction.user.id}>`)
+						.addFields({
+							name: 'Reason',
+							value: reason
+						})
+				)
+			]);
 
 			return interaction.editReply(`Ticket created successfully, it can be found at <#${ticketChannel.id}>`);
 		} catch (error) {
