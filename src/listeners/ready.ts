@@ -5,6 +5,7 @@ import { blue, gray, green, magenta, magentaBright, white, yellow } from 'colore
 import { Time } from '@sapphire/duration';
 
 const dev = process.env.NODE_ENV !== 'production';
+import initializeTicketAttachmentServer from '#root/api/main';
 
 @ApplyOptions<Listener.Options>({ once: true })
 export class UserEvent extends Listener {
@@ -13,6 +14,7 @@ export class UserEvent extends Listener {
 	public run() {
 		this.printBanner();
 		this.printStoreDebugInformation();
+		initializeTicketAttachmentServer();
 
 		setInterval(() => this.banRemover().catch((err) => this.container.logger.error(err)), Time.Minute * 5);
 		// I'm aware that i could just put the Interval value myself, but since im using this package elsewhere, i may aswell do this to make it easier to read
