@@ -666,10 +666,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sapphire/plugin-utilities-store@npm:^1.0.3":
-  version: 1.0.3
-  resolution: "@sapphire/plugin-utilities-store@npm:1.0.3"
-  checksum: defe92cb73800860a454aa29b92d802b0ec9f85abc59baf78836647b7d656d748c97bdf66b6e7d8b798afe4e5d03333393622a385b085ebb1883f18b10d3e9ce
+"@sapphire/plugin-utilities-store@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "@sapphire/plugin-utilities-store@npm:2.0.1"
+  checksum: 6816ea8b53985c9807e348804309c6d9f937b35488da18428b4184f2466c5b17074d3cfa4705ae62aa5fa3b206f5ea3ed601a072b706ce2b2756b6e417a067d5
   languageName: node
   linkType: hard
 
@@ -3989,7 +3989,7 @@ __metadata:
     "@sapphire/plugin-hmr": "npm:^3.0.0"
     "@sapphire/plugin-logger": "npm:^4.0.1"
     "@sapphire/plugin-subcommands": "npm:^6.0.1"
-    "@sapphire/plugin-utilities-store": "npm:^1.0.3"
+    "@sapphire/plugin-utilities-store": "npm:^2.0.1"
     "@sapphire/prettier-config": "npm:^2.0.0"
     "@sapphire/ts-config": "npm:^5.0.0"
     "@sapphire/utilities": "npm:^3.14.0"
