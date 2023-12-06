@@ -23,7 +23,7 @@
 		"@sapphire/framework": "^5.0.2",
 		"@sapphire/plugin-hmr": "^3.0.0",
 		"@sapphire/plugin-logger": "^4.0.1",
-		"@sapphire/plugin-subcommands": "^5.1.0",
+		"@sapphire/plugin-subcommands": "^6.0.1",
 		"@sapphire/plugin-utilities-store": "^1.0.3",
 		"@sapphire/utilities": "^3.14.0",
 		"@skyra/env-utilities": "^1.2.1",
