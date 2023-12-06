@@ -140,6 +140,10 @@ export default class ManageTicketSubcommand extends Subcommand {
 					{
 						id: interaction.user.id,
 						allow: [PermissionsBitField.Flags.ViewChannel]
+					},
+					{
+						id: member.id,
+						allow: [PermissionsBitField.Flags.ViewChannel]
 					}
 				]
 			});
@@ -147,7 +151,7 @@ export default class ManageTicketSubcommand extends Subcommand {
 			await Promise.all([
 				this.container.prisma.ticket.create({
 					data: {
-						opener: BigInt(interaction.user.id),
+						opener: BigInt(member.id),
 						channelId: BigInt(ticketChannel.id),
 						reason
 					}
