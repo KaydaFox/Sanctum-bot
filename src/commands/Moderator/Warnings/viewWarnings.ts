@@ -84,7 +84,7 @@ export class ViewWarningsCommand extends Command {
 							userIsModerator ? `\n**Warning ID:** ${warning.id}` : ''
 						}`
 					}))
-			  );
+				);
 
 		return interaction.reply({
 			embeds: [warningsEmbed]
