@@ -1,4 +1,3 @@
-import { Invite } from '@prisma/client';
 import { ApplyOptions } from '@sapphire/decorators';
 import { Events, Listener, type ListenerOptions } from '@sapphire/framework';
 import { sleep } from '@sapphire/utilities';
@@ -36,132 +35,85 @@ export class GuildMemberRemoveListener extends Listener {
 				return null;
 			});
 
+			const embed = new EmbedBuilder()
+				.setAuthor({
+					name: member.user.username,
+					iconURL: member.displayAvatarURL()
+				})
+				.addFields(
+					{
+						name: 'Account Created',
+						value: `<t:${Math.floor(member.user.createdTimestamp / 1000)}:R>`
+					},
+					{
+						name: 'Member Left',
+						value: `<t:${Math.floor((Date.now() - 5000) / 1000)}:R>`,
+						inline: true
+					},
+					{
+						name: 'Member Joined',
+						value: member.joinedTimestamp
+							? `<t:${Math.floor(member.joinedTimestamp / 1000)}:R>`
+							: "Discord is being dumb and didn't tell me",
+						inline: true
+					},
+					{
+						name: 'Member Count',
+						value: member.guild.memberCount.toString()
+					},
+					{
+						name: 'Invite info',
+						value: `Invite code: ${inviteInfo?.inviteCode || 'Unkown'} from ${
+							(inviteInfo && inviteInfo?.inviterUserId === 'unknown') || !inviteInfo?.invitedUserId
+								? 'Unknown'
+								: `<@${inviteInfo?.inviterUserId}>`
+						}`
+					}
+				);
+
 			switch (leaveType) {
 				case 'standard':
-					return this.handleLeave(member, inviteInfo);
+					return this.handleLeave(embed);
 				case 'kick':
-					return this.handleKick(member, latestAuditLogKickEntry.entries.first()!, inviteInfo);
+					return this.handleKick(latestAuditLogKickEntry.entries.first()!, embed);
 				case 'ban':
-					return this.handleBan(member, latestAuditLogBanEntry.entries.first()!, inviteInfo);
+					return this.handleBan(latestAuditLogBanEntry.entries.first()!, embed);
 			}
 		} catch (error) {
 			return this.container.logger.error(error);
 		}
 	}
 
-	private async handleLeave(member: GuildMember, invite: Invite | null) {
+	private async handleLeave(embed: EmbedBuilder) {
 		const threadChannel = await this.container.client.utilities.modlogUtilities.fetchThreadChannel('MEMBERS');
 
+		embed.setTitle(`Member left`);
+
 		return threadChannel.send({
-			embeds: [
-				new EmbedBuilder()
-					.setAuthor({
-						name: member.user.username,
-						iconURL: member.displayAvatarURL()
-					})
-					.setTitle(`Member left`)
-					.addFields(
-						{
-							name: 'Account Created',
-							value: `<t:${Math.floor(member.user.createdTimestamp / 1000)}:R>`
-						},
-						{
-							name: 'Member Left',
-							value: `<t:${Math.floor(Date.now() / 1000)}:R>`
-						},
-						{
-							name: 'Member Count',
-							value: member.guild.memberCount.toString()
-						},
-						{
-							name: 'Invite info',
-							value: `Invite code: ${invite?.inviteCode || 'Unkown'} from ${
-								(invite && invite?.inviterUserId === 'unknown') || !invite?.invitedUserId ? 'Unknown' : `<@${invite?.inviterUserId}>`
-							}`
-						}
-					)
-			]
+			embeds: [embed]
 		});
 	}
 
-	private async handleKick(member: GuildMember, data: GuildAuditLogsEntry, invite: Invite | null) {
+	private async handleKick(data: GuildAuditLogsEntry, embed: EmbedBuilder) {
 		const threadChannel = await this.container.client.utilities.modlogUtilities.fetchThreadChannel('MEMBERS');
 
-		const memberKickEmbed = new EmbedBuilder()
-			.setAuthor({
-				name: member.user.username,
-				iconURL: member.displayAvatarURL()
-			})
-			.setTitle(`Member kicked by ${data.executor?.username || 'Unknown moderator'}`)
-			.addFields(
-				{
-					name: 'Account Created',
-					value: `<t:${Math.floor(member.user.createdTimestamp / 1000)}:R>`,
-					inline: true
-				},
-				{
-					name: 'Member Joined',
-					value: `<t:${Math.floor(member.joinedTimestamp! / 1000)}:R>`,
-					inline: true
-				},
-				{
-					name: 'Member Count',
-					value: member.guild.memberCount.toString(),
-					inline: true
-				},
-				{
-					name: 'Reason',
-					value: `${data.reason ?? 'No reason provided'}`
-				},
-				{
-					name: 'Invite info',
-					value: `Invite code: ${invite?.inviteCode || 'Unkown'} from ${
-						(invite && invite?.inviterUserId === 'unknown') || !invite?.invitedUserId ? 'Unknown' : `<@${invite?.inviterUserId}>`
-					}`
-				}
-			);
+		embed.setTitle(`Member kicked by ${data.executor?.username || 'Unknown moderator'}`).addFields({
+			name: 'Reason',
+			value: `${data.reason ?? 'No reason provided'}`
+		});
 
-		return threadChannel.send({ embeds: [memberKickEmbed] });
+		return threadChannel.send({ embeds: [embed] });
 	}
 
-	private async handleBan(member: GuildMember, data: GuildAuditLogsEntry, invite: Invite | null) {
+	private async handleBan(data: GuildAuditLogsEntry, embed: EmbedBuilder) {
 		const threadChannel = await this.container.client.utilities.modlogUtilities.fetchThreadChannel('MEMBERS');
 
-		const memberBanEmbed = new EmbedBuilder()
-			.setAuthor({
-				name: member.user.username,
-				iconURL: member.displayAvatarURL()
-			})
-			.setTitle(`Member banned by ${data.executor?.username || 'Unknown moderator'}`)
-			.addFields(
-				{
-					name: 'Account Created',
-					value: `<t:${Math.floor(member.user.createdTimestamp / 1000)}:R>`,
-					inline: true
-				},
-				{
-					name: 'Member Joined',
-					value: `<t:${Math.floor(member.joinedTimestamp! / 1000)}:R>`,
-					inline: true
-				},
-				{
-					name: 'Member Count',
-					value: member.guild.memberCount.toString(),
-					inline: true
-				},
-				{
-					name: 'Reason',
-					value: `${data.reason ?? 'No reason provided'}`
-				},
-				{
-					name: 'Invite info',
-					value: `Invite code: ${invite?.inviteCode || 'Unkown'} from ${
-						(invite && invite?.inviterUserId === 'unknown') || !invite?.invitedUserId ? 'Unknown' : `<@${invite?.inviterUserId}>`
-					}`
-				}
-			);
+		embed.setTitle(`Member banned by ${data.executor?.username || 'Unknown moderator'}`).addFields({
+			name: 'Reason',
+			value: `${data.reason ?? 'No reason provided'}`
+		});
 
-		return threadChannel.send({ embeds: [memberBanEmbed] });
+		return threadChannel.send({ embeds: [embed] });
 	}
 
 	private fetchInviteFromDB(userId: string) {
