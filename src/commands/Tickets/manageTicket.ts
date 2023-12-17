@@ -144,6 +144,10 @@ export default class ManageTicketSubcommand extends Subcommand {
 					{
 						id: member.id,
 						allow: [PermissionsBitField.Flags.ViewChannel]
+					},
+					{
+						id: envParseString('GUILD_MOD_ROLE'),
+						allow: [PermissionsBitField.Flags.ViewChannel]
 					}
 				]
 			});

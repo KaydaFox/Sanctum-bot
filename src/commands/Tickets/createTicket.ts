@@ -38,6 +38,10 @@ export default class CreateTicketSubcommand extends Command {
 					{
 						id: interaction.user.id,
 						allow: [PermissionsBitField.Flags.ViewChannel]
+					},
+					{
+						id: envParseString('GUILD_MOD_ROLE'),
+						allow: [PermissionsBitField.Flags.ViewChannel]
 					}
 				]
 			});
