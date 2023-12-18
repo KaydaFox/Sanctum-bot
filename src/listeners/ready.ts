@@ -72,14 +72,16 @@ ${line03}${dev ? ` ${pad}${blc('<')}${llc('/')}${blc('>')} ${llc('DEVELOPMENT MO
 		for (const ban of bans) {
 			console.log(ban);
 			setTimeout(async () => {
-				await this.container.prisma.ban.delete({
-					where: {
-						id: ban.id
-					}
-				});
+				await Promise.all([
+					this.container.prisma.ban.delete({
+						where: {
+							id: ban.id
+						}
+					}),
 
-				await guildData.members.unban(String(ban.userId), 'Ban timer expired');
-			}, Time.Hour); // We can just run this once an hour for now
+					guildData.members.unban(String(ban.userId), 'Ban timer expired').catch(() => {}) // If the user was unbanned by staff in the guild, this will error, so let's just ignore it. Is this bad practice? maybe
+				]);
+			}, Time.Second * 2); // haha what was i thinking when i created this last, it's not here that needs to run every hour lmaoo, its the caller of this
 		}
 	}
 }

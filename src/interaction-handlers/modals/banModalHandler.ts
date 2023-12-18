@@ -22,6 +22,8 @@ export class ModalHandler extends InteractionHandler {
 			const reason = interaction.fields.getTextInputValue('ban.reasonInput');
 			const timeLength = new Duration(interaction.fields.getTextInputValue('ban.lengthInput')).fromNow;
 
+			const parsedDate = Date.parse(timeLength.toString());
+
 			const emebedToSendToUser = new EmbedBuilder()
 				.setAuthor({
 					name: interaction.guild?.name || 'Kent socialising',
@@ -33,7 +35,7 @@ export class ModalHandler extends InteractionHandler {
 					value: reason ?? 'No reason provided'
 				});
 
-			if (timeLength) {
+			if (timeLength && !isNaN(parsedDate)) {
 				await this.container.prisma.ban.create({
 					data: {
 						userId: BigInt(userId),
@@ -43,7 +45,7 @@ export class ModalHandler extends InteractionHandler {
 
 				emebedToSendToUser.addFields({
 					name: 'Expires',
-					value: Date.parse(timeLength.toString()).toString()
+					value: `<t:${Math.floor(parsedDate / 1000)}:R>`
 				});
 			}
 
@@ -51,7 +53,7 @@ export class ModalHandler extends InteractionHandler {
 
 			await this.container.client.guilds.cache
 				.get(envParseString('GUILD_ID'))
-				?.members.ban(userId, { reason: `${reason} - Banned by (${interaction.user.username})` ?? 'No reason provided' });
+				?.members.ban(userId, { reason: `${reason}` ?? 'No reason provided' });
 
 			return interaction.editReply({
 				content: `Successfully banned <@${userId}>. ${didSendDm ? 'They were also sent a DM' : 'I could not send them a DM'}`
