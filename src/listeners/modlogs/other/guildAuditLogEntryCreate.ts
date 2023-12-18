@@ -1,6 +1,6 @@
 import { ApplyOptions } from '@sapphire/decorators';
 import { Listener, type ListenerOptions } from '@sapphire/framework';
-import { AuditLogEvent, EmbedBuilder, Events, GuildAuditLogsEntry, type AuditLogChange } from 'discord.js';
+import { AuditLogEvent, EmbedBuilder, Events, type GuildAuditLogsEntry, type AuditLogChange, type User } from 'discord.js';
 
 @ApplyOptions<ListenerOptions>({
 	event: Events.GuildAuditLogEntryCreate
@@ -21,9 +21,47 @@ export class GuildAuditLogEntryCreateListener extends Listener {
 				return this.handleChannelUpdate(entry);
 			case AuditLogEvent.ChannelDelete:
 				return this.handleChannelDelete(entry);
+			case AuditLogEvent.MemberBanRemove:
+				return this.handleBanRemove(entry);
 
 			default:
 				return null;
+		}
+	}
+
+	private async handleBanRemove(entry: GuildAuditLogsEntry) {
+		try {
+			const threadChannel = await this.container.client.utilities.modlogUtilities.fetchThreadChannel('MEMBERS');
+
+			const moderator = entry.executor ?? (await this.container.client.users.fetch(entry.executorId!));
+			const unbannedMember = <User | undefined>entry.target ?? (await this.container.client.users.fetch(entry.targetId!));
+
+			const memberUnbannedEmbed = new EmbedBuilder()
+				.setAuthor({
+					name: unbannedMember.username || 'Unknown User',
+					iconURL: unbannedMember.displayAvatarURL() || undefined
+				})
+				.setTitle(`Member unbanned by ${moderator.username || 'Unknown user'}`)
+				.addFields(
+					{
+						name: 'Account Created',
+						value: `<t:${Math.floor(unbannedMember.createdTimestamp / 1000)}:R>`
+					},
+					{
+						name: 'Unbanned At',
+						value: `<t:${Math.floor(Date.now() / 1000)}:R>`
+					},
+					{
+						name: 'Reason',
+						value: entry.reason || 'No reason provided'
+					}
+				);
+
+			return threadChannel.send({
+				embeds: [memberUnbannedEmbed]
+			});
+		} catch (error) {
+			return this.container.logger.error(error);
 		}
 	}
 
