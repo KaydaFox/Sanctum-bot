@@ -38,3 +38,12 @@ model Ticket {
   opener    BigInt
   channelId BigInt @unique
 }
+
+model Suggestion {
+  id         Int       @id @default(autoincrement())
+  suggestion String
+  opener     BigInt
+  messageId  BigInt    @unique
+  repliedAt  DateTime?
+  status     String    @default("pending")
+}
