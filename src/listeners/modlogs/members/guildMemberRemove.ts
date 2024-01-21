@@ -75,9 +75,9 @@ export class GuildMemberRemoveListener extends Listener {
 				case 'standard':
 					return this.handleLeave(embed);
 				case 'kick':
-					return this.handleKick(latestAuditLogKickEntry.entries.first()!, embed);
+					return this.handleKick(latestAuditLogKickEntry.entries.first()!, embed, member.id);
 				case 'ban':
-					return this.handleBan(latestAuditLogBanEntry.entries.first()!, embed);
+					return this.handleBan(latestAuditLogBanEntry.entries.first()!, embed, member.id);
 			}
 		} catch (error) {
 			return this.container.logger.error(error);
@@ -94,24 +94,32 @@ export class GuildMemberRemoveListener extends Listener {
 		});
 	}
 
-	private async handleKick(data: GuildAuditLogsEntry, embed: EmbedBuilder) {
+	private async handleKick(data: GuildAuditLogsEntry, embed: EmbedBuilder, memberId: string) {
 		const threadChannel = await this.container.client.utilities.modlogUtilities.fetchThreadChannel('MEMBERS');
 
-		embed.setTitle(`Member kicked by ${data.executor?.username || 'Unknown moderator'}`).addFields({
+		const moderator = this.container.logsCache.get(memberId) ?? data.executor;
+
+		embed.setTitle(`Member kicked by ${moderator?.username || 'Unknown moderator'}`).addFields({
 			name: 'Reason',
 			value: `${data.reason ?? 'No reason provided'}`
 		});
+
+		this.container.logsCache.delete(memberId);
 
 		return threadChannel.send({ embeds: [embed] });
 	}
 
-	private async handleBan(data: GuildAuditLogsEntry, embed: EmbedBuilder) {
+	private async handleBan(data: GuildAuditLogsEntry, embed: EmbedBuilder, memberId: string) {
 		const threadChannel = await this.container.client.utilities.modlogUtilities.fetchThreadChannel('MEMBERS');
 
-		embed.setTitle(`Member banned by ${data.executor?.username || 'Unknown moderator'}`).addFields({
+		const moderator = this.container.logsCache.get(memberId) ?? data.executor;
+
+		embed.setTitle(`Member banned by ${moderator?.username || 'Unknown moderator'}`).addFields({
 			name: 'Reason',
 			value: `${data.reason ?? 'No reason provided'}`
 		});
+
+		this.container.logsCache.delete(memberId);
 
 		return threadChannel.send({ embeds: [embed] });
 	}

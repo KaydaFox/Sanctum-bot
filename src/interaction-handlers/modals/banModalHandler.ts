@@ -55,6 +55,8 @@ export class ModalHandler extends InteractionHandler {
 				.get(envParseString('GUILD_ID'))
 				?.members.ban(userId, { reason: `${reason}` ?? 'No reason provided' });
 
+			this.container.logsCache.set(userId, interaction.user);
+
 			return interaction.editReply({
 				content: `Successfully banned <@${userId}>. ${didSendDm ? 'They were also sent a DM' : 'I could not send them a DM'}`
 			});

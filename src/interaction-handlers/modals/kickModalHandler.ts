@@ -36,6 +36,8 @@ export class ModalHandler extends InteractionHandler {
 
 			await this.container.client.guilds.cache.get(envParseString('GUILD_ID'))?.members.kick(userId, reason ?? undefined);
 
+			this.container.logsCache.set(userId, interaction.user);
+
 			return interaction.editReply({
 				content: `Successfully kicked <@${userId}>. ${didSendDm ? 'They were also sent a DM' : 'I could not send them a DM'}`
 			});

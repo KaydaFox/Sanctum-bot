@@ -1,7 +1,7 @@
 import '#lib/setup';
 import { LogLevel, SapphireClient, container } from '@sapphire/framework';
 import { envParseString } from '@skyra/env-utilities';
-import { GatewayIntentBits } from 'discord.js';
+import { GatewayIntentBits, User } from 'discord.js';
 import { PrismaClient } from '@prisma/client';
 import { init } from '@androz2091/discord-invites-tracker';
 
@@ -17,6 +17,7 @@ const client = new SapphireClient({
 		GatewayIntentBits.MessageContent,
 		GatewayIntentBits.GuildMessages,
 		GatewayIntentBits.GuildMembers,
+		GatewayIntentBits.GuildInvites,
 		GatewayIntentBits.Guilds
 	],
 	hmr: {
@@ -27,6 +28,7 @@ const client = new SapphireClient({
 
 const main = async () => {
 	container.prisma = new PrismaClient();
+	container.logsCache = new Map<string, User>();
 
 	try {
 		client.logger.info('Logging in');

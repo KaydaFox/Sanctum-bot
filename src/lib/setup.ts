@@ -9,6 +9,7 @@ import '@sapphire/plugin-utilities-store/register';
 import '@sapphire/plugin-logger/register';
 import '@sapphire/plugin-hmr/register';
 import type { PrismaClient } from '@prisma/client';
+import { User } from 'discord.js';
 
 // Set default behavior to bulk overwrite
 ApplicationCommandRegistries.setDefaultBehaviorWhenNotIdentical(RegisterBehavior.BulkOverwrite);
@@ -42,5 +43,6 @@ declare module '@sapphire/pieces' {
 	interface Container {
 		prisma: PrismaClient;
 		tracker: any;
+		logsCache: Map<string, User>;
 	}
 }
