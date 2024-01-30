@@ -54,6 +54,7 @@
 		"typescript": "^5.3.3"
 	},
 	"scripts": {
+		"postinstall": "prisma generate",
 		"sapphire": "sapphire",
 		"generate": "sapphire generate",
 		"build": "tsc -b src",
