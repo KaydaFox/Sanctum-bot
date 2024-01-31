@@ -4,10 +4,12 @@ This here is the bot for the discord server `Sanctum` ran by one of my friends
 
 ## Main features
 
--   modlogs to inform us of changes within the server
+-   Modlogs to inform us of changes within the server
 -   DMs a user when they have a timeout placed on them (discord, why- dont you do this natively???). It will also do the same for bans and kicks
--   a warning system (lets us warn users and see whos been warned and why. This also lets users view all of their own warnings if they have any)
--   custom leveling system (soon to be imlemented)
+-   A warning system (lets us warn users and see whos been warned and why. This also lets users view all of their own warnings if they have any)
+-   Ticket system for members to easily talk to moderators, allows for adding multiple people into ticket also exports a transcript when the ticket is closed
+-   Invite logging. Discord has its own but it only applies for whilst the member is in the server
+-   A suggestion system that utilises threads to help with organization
 
 Currently that's it on the plans for the features. This may be expanded upon at any given time though
 
