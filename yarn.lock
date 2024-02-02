@@ -415,6 +415,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@kaydafox/typescript-config@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@kaydafox/typescript-config@npm:1.0.0"
+  checksum: 10c0/c82c48b15c1c99cfe7743294cc59276548cc3053433eddd46bf7d6a40e432ab59c2a54ca962d05c49e6acd4c69a48fe10c73e2f9012b04036378ea27ca5769a6
+  languageName: node
+  linkType: hard
+
 "@nodelib/fs.scandir@npm:2.1.5":
   version: 2.1.5
   resolution: "@nodelib/fs.scandir@npm:2.1.5"
@@ -754,16 +761,6 @@ __metadata:
   version: 1.0.3
   resolution: "@sapphire/timestamp@npm:1.0.3"
   checksum: 10c0/97d8b9196674b1272b87366d386bd7077bfc14f0227e79bce36d4d13231e2f14eb6a517b043117916dd8fee2486d421b01494d462f7f01b6d951c2b50042bc7f
-  languageName: node
-  linkType: hard
-
-"@sapphire/ts-config@npm:^5.0.0":
-  version: 5.0.0
-  resolution: "@sapphire/ts-config@npm:5.0.0"
-  dependencies:
-    tslib: "npm:^2.6.2"
-    typescript: "npm:^5.2.2"
-  checksum: 10c0/b647ac85045b53afe5fd66f3f3432b8c5d90a506294d385390030c0feab993c68f44f65c069cf7ecb37bee4659aae3a718082acebbcacb26cb56bd7198b87db6
   languageName: node
   linkType: hard
 
@@ -3887,6 +3884,7 @@ __metadata:
     "@androz2091/discord-invites-tracker": "npm:^1.2.3"
     "@commitlint/cli": "npm:^18.6.0"
     "@commitlint/config-conventional": "npm:^18.6.0"
+    "@kaydafox/typescript-config": "npm:^1.0.0"
     "@prisma/client": "npm:^5.9.0"
     "@sapphire/cli": "npm:^1.9.3"
     "@sapphire/decorators": "npm:^6.0.4"
@@ -3900,7 +3898,6 @@ __metadata:
     "@sapphire/plugin-subcommands": "npm:^6.0.3"
     "@sapphire/plugin-utilities-store": "npm:^2.0.2"
     "@sapphire/prettier-config": "npm:^2.0.0"
-    "@sapphire/ts-config": "npm:^5.0.0"
     "@sapphire/utilities": "npm:^3.15.3"
     "@skyra/env-utilities": "npm:^1.3.0"
     "@types/eslint": "npm:^8.56.2"
@@ -4419,7 +4416,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^5.2.2, typescript@npm:^5.3.2, typescript@npm:^5.3.3":
+"typescript@npm:^5.3.2, typescript@npm:^5.3.3":
   version: 5.3.3
   resolution: "typescript@npm:5.3.3"
   bin:
@@ -4429,7 +4426,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A^5.2.2#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A^5.3.2#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A^5.3.3#optional!builtin<compat/typescript>":
+"typescript@patch:typescript@npm%3A^5.3.2#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A^5.3.3#optional!builtin<compat/typescript>":
   version: 5.3.3
   resolution: "typescript@patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>::version=5.3.3&hash=e012d7"
   bin:
