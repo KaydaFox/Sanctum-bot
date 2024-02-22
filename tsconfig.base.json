@@ -5,7 +5,8 @@
 		"emitDecoratorMetadata": false,
 		"target": "ESNext",
 		"module": "NodeNext",
-		"moduleResolution": "NodeNext"
+		"moduleResolution": "NodeNext",
+		"skipLibCheck": true
 	},
 	"exclude": ["node_modules/*"]
 }
