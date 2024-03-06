@@ -34,6 +34,8 @@ declare module '@skyra/env-utilities' {
 		TICKET_CATEGORY_ID: string;
 		TICKET_TRANSCRIPT_CHANNEL_ID: string;
 		SUGGESTION_CHANNEL_ID: string;
+		WELCOMING_CHANNEL_ID: string;
+		WELCOMING_ROLE_ID: string;
 		// Honestly, I should probably move this to the
 		// DB or something and just apply them with a command
 	}
