@@ -41,7 +41,7 @@
 		"@sapphire/cli": "^1.9.3",
 		"@sapphire/eslint-config": "^5.0.4",
 		"@sapphire/prettier-config": "^2.0.0",
-		"@types/eslint": "^8.56.10",
+		"@types/eslint": "^9.6.1",
 		"@types/node": "^20.12.7",
 		"@types/ws": "^8.5.10",
 		"eslint": "^8.57.0",
